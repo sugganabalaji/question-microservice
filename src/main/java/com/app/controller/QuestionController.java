@@ -5,6 +5,7 @@ import com.app.model.QuestionModel;
 import com.app.model.UserResponse;
 import com.app.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private Environment environment;
 
     @GetMapping("/all")
     public ResponseEntity<List<Question>> getAllQuestions() {
@@ -81,6 +85,7 @@ public class QuestionController {
 
     @PostMapping("/getQuestions")
     public ResponseEntity<List<QuestionModel>> getQuestions(@RequestBody List<Long> questionIds) {
+        System.out.println(environment.getProperty("local.server.port"));
         return ResponseEntity.ok(questionService.getQuestions(questionIds));
     }
 
